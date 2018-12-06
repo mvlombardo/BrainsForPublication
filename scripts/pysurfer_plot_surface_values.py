@@ -118,7 +118,7 @@ def mask_vtx_data(overlay_fname, cortex_fname, thresh):
     vtx_data = io.read_scalar_data(overlay_fname)
     # cortex_data = io.read_label(cortex_fname)
     cortex_data = nibabel.freesurfer.io.read_label(cortex_fname)
-    print(cortex_data)
+
     # Create a mask of 1s where there is cortex and 0s on the medial wall
     mask = np.zeros_like(vtx_data)
     mask[cortex_data] = 1
