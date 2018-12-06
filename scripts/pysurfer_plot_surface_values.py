@@ -15,6 +15,7 @@ import argparse
 import numpy as np
 
 from surfer import Brain, io
+import nibabel
 
 import itertools as it
 
@@ -115,8 +116,9 @@ def setup_argparser():
 def mask_vtx_data(overlay_fname, cortex_fname, thresh):
 
     vtx_data = io.read_scalar_data(overlay_fname)
-    cortex_data = io.read_label(cortex_fname)
-
+    # cortex_data = io.read_label(cortex_fname)
+    cortex_data = nibabel.freesurfer.io.read_label(cortex_fname)
+    print(cortex_data)
     # Create a mask of 1s where there is cortex and 0s on the medial wall
     mask = np.zeros_like(vtx_data)
     mask[cortex_data] = 1
@@ -160,11 +162,12 @@ def calc_range(vtx_data_left, vtx_data_right, thresh, l, u):
 #------------------------------------------------------------------------------
 def plot_surface(vtx_data, subject_id, subjects_dir, hemi, surface, output_dir, prefix, l, u, cmap, center, thresh):
     # Open up a brain in pysurfer
-    brain = Brain(subject_id, hemi, surface,
-                  subjects_dir = subjects_dir,
-                  config_opts=dict(background="white",
-                                   height=665,
-                                   width=800))
+    # brain = Brain(subject_id, hemi, surface,
+    #               subjects_dir = subjects_dir,
+    #               config_opts=dict(background="white",
+    #                                height=665,
+    #                                width=800))
+    brain = Brain(subject_id, hemi, surface, subjects_dir = subjects_dir)
 
     if center:
         # Make sure the colorbar is centered
@@ -462,6 +465,8 @@ if color_file:
     colors = [line.strip() for line in open(color_file)]
     l = 1
     u = len(colors)
+else:
+    colors = False
 
 #=============================================================================
 # MAKE THE INDIVIDUAL PICTURES
