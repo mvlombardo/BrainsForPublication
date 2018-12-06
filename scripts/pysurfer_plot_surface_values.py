@@ -167,7 +167,7 @@ def plot_surface(vtx_data, subject_id, subjects_dir, hemi, surface, output_dir, 
     #               config_opts=dict(background="white",
     #                                height=665,
     #                                width=800))
-    brain = Brain(subject_id, hemi, surface, subjects_dir = subjects_dir)
+    brain = Brain(subject_id, hemi, surface, subjects_dir = subjects_dir,background="white")
 
     if center:
         # Make sure the colorbar is centered
